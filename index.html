@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, Bootstrap Table!</title>
+
+    <link rel="stylesheet" href="static/bootstrap.min.css">
+    <link rel="stylesheet" href="static/bootstrap-table.min.css">
+</head>
+<body>
+<table id="table">
+</table>
+
+<script src="static/jquery.min.js"></script>
+<script src="static/popper.min.js"></script>
+<script src="static/bootstrap.min.js"></script>
+<script src="static/bootstrap-table.min.js"></script>
+
+<script>
+  const stmt = queryStr("stmt");
+  $.ajax({
+    url: "http://127.0.0.1:6806/api/query/sql?stmt=" + stmt,
+  }).done(result => {
+    console.log(result);
+
+    $('#table').bootstrapTable({
+      sortable: true,
+      columns: [{
+        field: 'id',
+        title: 'ID',
+        width: "100",
+      }, {
+        field: 'content',
+        title: 'Content',
+        width: "100",
+      }, {
+        field: 'type',
+        title: 'Type',
+        width: "20",
+      }, {
+        field: 'created',
+        title: 'Created',
+        width: "100",
+      }, {
+        field: 'updated',
+        title: 'Updated',
+        width: "100",
+      }
+      ],
+      data: result.data,
+    });
+  })
+
+  function queryStr(name) {
+    let query = window.location.search.substring(1);
+    let vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+      let pair = vars[i].split("=");
+      if (pair[0] === name) {
+        return pair[1];
+      }
+    }
+    return "";
+  }
+</script>
+</body>
+</html>
