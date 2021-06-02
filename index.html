@@ -20,7 +20,11 @@
 <script>
   const stmt = queryStr("stmt");
   $.ajax({
-    url: "http://127.0.0.1:6806/api/query/sql?stmt=" + escape(stmt),
+    method: "POST",
+    url: "http://127.0.0.1:6806/api/query/sql",
+    data: JSON.stringify({
+      "stmt": escape(stmt)
+    })
   }).done(result => {
     console.log(result);
 
